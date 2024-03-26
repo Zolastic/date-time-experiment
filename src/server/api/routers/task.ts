@@ -18,9 +18,13 @@ export const taskRouter = createTRPCRouter({
       });
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.task.findFirst({
-      orderBy: { createdAt: "desc" },
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    const tasks = await ctx.db.task.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
+    return tasks;
   }),
 });

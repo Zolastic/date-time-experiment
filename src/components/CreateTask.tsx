@@ -5,10 +5,13 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { api } from "@/trpc/react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const CreateTask = () => {
   const [taskName, setTaskName] = useState<string>("");
   const [dueDate, setDueDate] = useState<string>("");
+
+  const router = useRouter();
 
   const createTaskMutate = api.task.create.useMutation();
 
@@ -20,6 +23,7 @@ const CreateTask = () => {
         success: () => {
           setTaskName("");
           setDueDate("");
+          router.refresh();
           return "Task created successfully";
         },
         error: "Failed to create task",
